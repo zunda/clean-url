@@ -11,19 +11,29 @@ describe('parseUrl', () => {
   })
 
   test('parses a full URL', () => {
-    const parsed = parseUrl('https://user:pass@www.example.com/path/to?q=query&p=parameter#fragment')
+    const parsed = parseUrl('https://user:pass@www.example.com/path/to?p=parameter&q=query#fragment')
     const expected = {
       hash: '#fragment',
       host: 'www.example.com',
       password: 'pass',
       pathname: '/path/to',
       protocol: 'https:',
-      search: '?q=query&p=parameter',
+      search: '?p=parameter&q=query',
       username: 'user'
     }
     Object.entries(expected).forEach(([prop, goal]) => {
       expect(parsed[prop]).toBe(goal)
     })
+    const pars = [
+      ['p', 'parameter'],
+      ['q', 'query']
+    ]
+    var i = 0
+    for (const [k, v] of parsed.searchParams.entries()) {
+      expect(k).toBe(pars[i][0])
+      expect(v).toBe(pars[i][1])
+      i++
+    }
   })
 
   test('parses an http URL with non-standard port', () => {

@@ -51,4 +51,17 @@ describe('parseUrl', () => {
       expect(parsed[prop]).toBe(goal)
     })
   })
+
+  test('doesn\'t parse a URL queries spearated by smicolon', () => {
+    const parsed = parseUrl('https://example.com/?p=parameter;q=query')
+    const pars = [
+      ['p', 'parameter;q=query'],
+    ]
+    var i = 0
+    for (const [k, v] of parsed.searchParams.entries()) {
+      expect(k).toBe(pars[i][0])
+      expect(v).toBe(pars[i][1])
+      i++
+    }
+  })
 })

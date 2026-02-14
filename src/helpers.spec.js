@@ -4,7 +4,7 @@ import { parseUrl } from './helpers'
 describe('parseUrl', () => {
   test('parses a minimal URL', () => {
     const parsed = parseUrl('https://example.com')
-    const expected = { host: 'example.com', protocol: 'https:' }
+    const expected = { hostname: 'example.com', protocol: 'https:' }
     Object.entries(expected).forEach(([prop, goal]) => {
       expect(parsed[prop]).toBe(goal)
     })
@@ -14,7 +14,7 @@ describe('parseUrl', () => {
     const parsed = parseUrl('https://user:pass@www.example.com/path/to?p=parameter&q=query#fragment')
     const expected = {
       hash: '#fragment',
-      host: 'www.example.com',
+      hostname: 'www.example.com',
       password: 'pass',
       pathname: '/path/to',
       protocol: 'https:',
@@ -38,7 +38,7 @@ describe('parseUrl', () => {
 
   test('parses an http URL with non-standard port', () => {
     const parsed = parseUrl('http://example.com:8080')
-    const expected = { host: 'example.com:8080' }
+    const expected = { host: 'example.com:8080', hostname: 'example.com' }
     Object.entries(expected).forEach(([prop, goal]) => {
       expect(parsed[prop]).toBe(goal)
     })
@@ -46,7 +46,7 @@ describe('parseUrl', () => {
 
   test('parses an https URL with non-standard port', () => {
     const parsed = parseUrl('https://example.com:80')
-    const expected = { host: 'example.com:80' }
+    const expected = { host: 'example.com:80', hostname: 'example.com' }
     Object.entries(expected).forEach(([prop, goal]) => {
       expect(parsed[prop]).toBe(goal)
     })

@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { parseUrl } from './helpers'
+import { parseUrl } from './UrlCleaner'
 
 describe('parseUrl', () => {
   test('parses a minimal URL', () => {

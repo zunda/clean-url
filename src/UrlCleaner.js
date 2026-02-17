@@ -1,3 +1,2 @@
-export function parseUrl(url) {
-  return URL.parse(url)
+export class UrlCleaner extends URL {
 }

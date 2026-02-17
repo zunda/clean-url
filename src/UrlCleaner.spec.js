@@ -1,9 +1,9 @@
 import { describe, expect, test } from 'vitest'
-import { parseUrl } from './UrlCleaner'
+import { UrlCleaner } from './UrlCleaner'
 
-describe('parseUrl', () => {
+describe('UrlCleaner', () => {
   test('parses a minimal URL', () => {
-    const parsed = parseUrl('https://example.com')
+    const parsed = UrlCleaner.parse('https://example.com')
     const expected = { hostname: 'example.com', protocol: 'https:' }
     Object.entries(expected).forEach(([prop, goal]) => {
       expect(parsed[prop]).toBe(goal)
@@ -11,7 +11,7 @@ describe('parseUrl', () => {
   })
 
   test('parses a full URL', () => {
-    const parsed = parseUrl('https://user:pass@www.example.com/path/to?p=parameter&q=query#fragment')
+    const parsed = UrlCleaner.parse('https://user:pass@www.example.com/path/to?p=parameter&q=query#fragment')
     const expected = {
       hash: '#fragment',
       hostname: 'www.example.com',
@@ -37,7 +37,7 @@ describe('parseUrl', () => {
   })
 
   test('parses an http URL with non-standard port', () => {
-    const parsed = parseUrl('http://example.com:8080')
+    const parsed = UrlCleaner.parse('http://example.com:8080')
     const expected = { host: 'example.com:8080', hostname: 'example.com' }
     Object.entries(expected).forEach(([prop, goal]) => {
       expect(parsed[prop]).toBe(goal)
@@ -45,7 +45,7 @@ describe('parseUrl', () => {
   })
 
   test('parses an https URL with non-standard port', () => {
-    const parsed = parseUrl('https://example.com:80')
+    const parsed = UrlCleaner.parse('https://example.com:80')
     const expected = { host: 'example.com:80', hostname: 'example.com' }
     Object.entries(expected).forEach(([prop, goal]) => {
       expect(parsed[prop]).toBe(goal)
@@ -53,7 +53,7 @@ describe('parseUrl', () => {
   })
 
   test('doesn\'t parse a URL queries spearated by smicolon', () => {
-    const parsed = parseUrl('https://example.com/?p=parameter;q=query')
+    const parsed = UrlCleaner.parse('https://example.com/?p=parameter;q=query')
     const pars = [
       ['p', 'parameter;q=query'],
     ]

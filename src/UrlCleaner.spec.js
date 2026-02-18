@@ -11,14 +11,14 @@ describe('UrlCleaner', () => {
   })
 
   test('parses a full URL', () => {
-    const parsed = UrlCleaner.parse('https://user:pass@www.example.com/path/to?p=parameter&q=query#fragment')
+    const parsed = UrlCleaner.parse('https://user:pass@www.example.com/path/to?p=parameter&q=query&p=2ndparameter#fragment')
     const expected = {
       hash: '#fragment',
       hostname: 'www.example.com',
       password: 'pass',
       pathname: '/path/to',
       protocol: 'https:',
-      search: '?p=parameter&q=query',
+      search: '?p=parameter&q=query&p=2ndparameter',
       username: 'user'
     }
     Object.entries(expected).forEach(([prop, goal]) => {
@@ -26,7 +26,8 @@ describe('UrlCleaner', () => {
     })
     const pars = [
       ['p', 'parameter'],
-      ['q', 'query']
+      ['q', 'query'],
+      ['p', '2ndparameter']
     ]
     var i = 0
     for (const [k, v] of parsed.searchParams.entries()) {
@@ -34,6 +35,14 @@ describe('UrlCleaner', () => {
       expect(v).toBe(pars[i][1])
       i++
     }
+  })
+
+  test('removes queries', () => {
+    const orig = 'https://user:pass@www.example.com/path/to?p=parameter&q=query&p=2ndparameter#fragment'
+    const dest = 'https://user:pass@www.example.com/path/to#fragment'
+    const parsed = UrlCleaner.parse(orig)
+    parsed.removeQueries()
+    expect(parsed.toString()).toBe(dest)
   })
 
   test('parses an http URL with non-standard port', () => {

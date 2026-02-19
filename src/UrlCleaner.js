@@ -3,10 +3,12 @@ export class UrlCleaner extends URL {
     return new UrlCleaner(URL.parse(string))
   }
 
-  removeQueries() {
+  removeQueriesExceptFor(keep) {
     const keys = []
     for (const k of this.searchParams.keys()) {
-      keys.push(k)
+      if (!keep.includes(k)) {
+        keys.push(k)
+      }
     }
     for (const k of keys) {
       this.searchParams.delete(k)

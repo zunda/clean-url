@@ -1,6 +1,12 @@
 export class UrlCleaner extends URL {
   static parse(string) {
-    return new UrlCleaner(URL.parse(string))
+    if (string) {
+      const x = URL.parse(string)
+      if (x) {
+        return new UrlCleaner(x)
+      }
+    }
+    return null
   }
 
   removeQueriesExceptFor(keep) {

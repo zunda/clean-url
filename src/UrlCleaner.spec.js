@@ -10,6 +10,16 @@ describe('UrlCleaner', () => {
     })
   })
 
+  test('accepts empty input', () => {
+    for (const x of [undefined, null, ""]) {
+      expect(UrlCleaner.parse(x)).toBe(null)
+    }
+  })
+
+  test('accepts non-URL input', () => {
+    expect(UrlCleaner.parse("Hello, World!")).toBe(null)
+  })
+
   test('parses a full URL', () => {
     const parsed = UrlCleaner.parse('https://user:pass@www.example.com/path/to?p=parameter&q=query&p=2ndparameter#fragment')
     const expected = {

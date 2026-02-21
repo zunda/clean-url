@@ -19,7 +19,7 @@ export default {
   computed: {
     cleanUrl() {
       const x = UrlCleaner.parse(this.dirtyUrl)
-      return x ? x.removeQueriesExceptFor([]).toString() : ""
+      return x ? x.removeQueriesExceptFor(["v"]).toString() : ""
     }
   }
 }

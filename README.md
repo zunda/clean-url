@@ -1,5 +1,5 @@
 # clean-url
-A app thar removes unwanted components from URLs.
+A web app that removes unwanted components from URLs.
 
 ## Project setup
 ```

@@ -1,5 +1,5 @@
 # clean-url
-A web app that removes unwanted components from URLs.
+An web app that removes extra components from URLs. Sample: https://clean-url.zunda.ninja/
 
 ## Project setup
 ```

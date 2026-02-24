@@ -27,7 +27,7 @@ yarn lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## License
-Copyright 2026 by zunda &lt;https://zunda.ninja&gt;, under [MIT License](LICENSE).
+Copyright 2026 by zunda &lt;https://zunda.ninja&gt;, under [MIT License](LICENSE.txt).
 
 ### Dependent packages
 See [LICENSES](LICENSES.txt) file.

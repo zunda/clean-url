@@ -1,3 +1,4 @@
+import { describe, expect, test } from 'vitest'
 import { render, fireEvent, screen } from '@testing-library/vue'
 import UrlCleanerComponent from '../components/UrlCleaner.vue'
 

@@ -23,6 +23,11 @@ The artifacts will be in `dist/` directory.
 yarn lint
 ```
 
+### Run tests
+```
+yarn test --run
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 

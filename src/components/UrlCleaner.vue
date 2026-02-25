@@ -1,6 +1,6 @@
 <script setup>
-import { useClipboard } from '@vueuse/core'
-import { UrlCleaner } from '../UrlCleaner'
+import { useClipboard } from "@vueuse/core"
+import { UrlCleaner } from "../UrlCleaner"
 const { copy, copied, isSupported } = useClipboard()
 </script>
 
@@ -21,21 +21,43 @@ const { copy, copied, isSupported } = useClipboard()
         Oops
       </span>
     </p>
+    <ul>
+      <li v-for="query in parsedQueries" :key="query.id" >
+        {{ query.field }}={{ query.value }}
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'UrlCleanerComponent',
+  name: "UrlCleanerComponent",
   data() {
     return {
-      dirtyUrl: ""
+      dirtyUrl: "",
+      keep: ["v"]
     }
   },
   computed: {
+    parsedUrl() {
+      return URL.parse(this.dirtyUrl)
+    },
     cleanUrl() {
-      const x = UrlCleaner.parse(this.dirtyUrl)
-      return x ? x.removeQueriesExceptFor(["v"]).toString() : ""
+      if (this.parsedUrl) {
+        return new UrlCleaner(this.parsedUrl).removeQueriesExceptFor(this.keep).toString()
+      } else {
+        return ""
+      }
+    },
+    parsedQueries() {
+      const q = []
+      if (this.parsedUrl) {
+        var i = 0
+        for (const [f, v] of this.parsedUrl.searchParams.entries()) {
+          q.push({ id: i, field: f, value: v })
+        }
+      }
+      return q
     }
   }
 }

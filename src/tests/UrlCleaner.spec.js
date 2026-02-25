@@ -22,4 +22,18 @@ describe('UrlCleanerComponent', () => {
   test.skip('copies clean URL to clipboard', async () => {
     // it looks like useClipboard().isSupported if false on testing-library
   })
+
+  test('shows all queries from a URL', async () => {
+    render(UrlCleanerComponent)
+
+    await fireEvent.update(
+      screen.getByPlaceholderText('Dirty URL'),
+      'http://example.com/path/?p=parameter&v=keep'
+    )
+
+    screen.getByText('p=parameter')
+    screen.getByText('v=keep')
+
+    cleanup()
+  })
 })

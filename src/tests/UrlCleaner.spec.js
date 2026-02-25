@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { render, fireEvent, screen } from '@testing-library/vue'
+import { render, cleanup, fireEvent, screen } from '@testing-library/vue'
 import UrlCleanerComponent from '../components/UrlCleaner.vue'
 
 describe('UrlCleanerComponent', () => {
@@ -15,5 +15,11 @@ describe('UrlCleanerComponent', () => {
 
     expect(dirty.value).toBe(dirtyUrl)
     expect(clean.value).toBe(cleanUrl)
+
+    cleanup()
+  })
+
+  test.skip('copies clean URL to clipboard', async () => {
+    // it looks like useClipboard().isSupported if false on testing-library
   })
 })

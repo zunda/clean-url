@@ -1,14 +1,30 @@
+<script setup>
+import { useClipboard } from '@vueuse/core'
+import { UrlCleaner } from '../UrlCleaner'
+const { copy, copied, isSupported } = useClipboard()
+</script>
+
 <template>
   <div class="urlCleaner">
-    <input v-model="dirtyUrl"  placeholder="Dirty URL" type="url" />
-    <br/>
-    <input v-model="cleanUrl" placeholder="Clean URL" readonly="readonly" />
+    <p class="urlRow">
+      <input v-model="dirtyUrl"  placeholder="Dirty URL" type="url" />
+    </p>
+    <p class="urlRow">
+      <input v-model="cleanUrl" placeholder="Clean URL" readonly="readonly" />
+      <span v-if="isSupported">
+        <button @click="copy(cleanUrl)" :disabled="!cleanUrl" >
+          <span v-if="!copied">Copy</span>
+          <span v-else>Copied</span>
+        </button>
+      </span>
+      <span v-else>
+        Oops
+      </span>
+    </p>
   </div>
 </template>
 
 <script>
-import { UrlCleaner } from '../UrlCleaner'
-
 export default {
   name: 'UrlCleanerComponent',
   data() {
@@ -26,8 +42,13 @@ export default {
 </script>
 
 <style scoped>
+p.urlRow {
+  display: flex;
+}
 input {
-  width: 100%;
-  box-sizing: border-box
+  flex-grow: 100;
+}
+button {
+  width: 5em;
 }
 </style>

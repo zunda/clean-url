@@ -2,6 +2,9 @@
 node_modules
 /dist
 
+# yarn-4
+.editorconfig
+.gitattributes
 
 # local env files
 .env.local

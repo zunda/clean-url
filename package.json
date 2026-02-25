@@ -63,5 +63,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/zunda/clean-url.git"
-  }
+  },
+  "packageManager": "yarn@4.12.0"
 }

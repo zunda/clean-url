@@ -18,12 +18,12 @@ const { copy, copied, isSupported } = useClipboard()
         </button>
       </span>
     </p>
-    <ul>
+    <ol>
       <li v-for="query in parsedQueries" :key="query.id" >
         <input type="checkbox" :id="query.id" :checked="keep[query.field]" :value="query.field" @change="check" />
         <label :for="query.id">{{ query.field }}={{ query.value }}</label>
       </li>
-    </ul>
+    </ol>
   </div>
 </template>
 
@@ -76,8 +76,14 @@ p.urlRow {
 }
 input {
   flex-grow: 100;
+  font-family: monospace;
 }
 button {
   width: 5em;
+}
+ol {
+  padding: 0;
+  list-style: none;
+  font-family: monospace;
 }
 </style>

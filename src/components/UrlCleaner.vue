@@ -7,10 +7,10 @@ const { copy, copied, isSupported } = useClipboard()
 <template>
   <div class="urlCleaner">
     <p class="urlRow">
-      <input v-model="dirtyUrl"  placeholder="Dirty URL" type="url" />
+      <input class="url" v-model="dirtyUrl"  placeholder="Dirty URL" type="url" />
     </p>
     <p class="urlRow">
-      <input v-model="cleanUrl" placeholder="Clean URL" readonly="readonly" />
+      <input class="url" v-model="cleanUrl" placeholder="Clean URL" readonly="readonly" />
       <span v-if="isSupported">
         <button @click="copy(cleanUrl)" :disabled="!cleanUrl" >
           <span v-if="!copied">Copy</span>
@@ -75,16 +75,24 @@ export default {
 p.urlRow {
   display: flex;
 }
-input {
+input.url {
   flex-grow: 100;
   font-family: monospace;
 }
 button {
   width: 5em;
 }
+
 ol {
   padding: 0;
   list-style: none;
+}
+li {
+  display: flex;
+}
+label {
+  flex-grow: 100;
   font-family: monospace;
+  text-wrap-mode: nowrap;
 }
 </style>

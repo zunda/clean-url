@@ -34,6 +34,7 @@ export default {
     return {
       dirtyUrl: "",
       keep: {
+        q: true,
         v: true,
         t: true
       }

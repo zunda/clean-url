@@ -17,9 +17,6 @@ const { copy, copied, isSupported } = useClipboard()
           <span v-else>Copied</span>
         </button>
       </span>
-      <span v-else>
-        Oops
-      </span>
     </p>
     <ul>
       <li v-for="query in parsedQueries" :key="query.id" >

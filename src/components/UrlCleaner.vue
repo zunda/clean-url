@@ -23,6 +23,10 @@ const { copy, copied, isSupported } = useClipboard()
         <input type="checkbox" :id="query.id" :checked="keep[query.field]" :value="query.field" @change="check" />
         <label :for="query.id">{{ query.field }}={{ query.value }}</label>
       </li>
+      <li v-if="parsedFragment">
+        <input type="checkbox" id="fragment" :checked="keepFragment" @change="checkFragment" />
+        <label for="fragment">{{ parsedFragment }}</label>
+      </li>
     </ol>
   </div>
 </template>
@@ -37,7 +41,8 @@ export default {
         q: true,
         v: true,
         t: true
-      }
+      },
+      keepFragment: true
     }
   },
   computed: {
@@ -46,7 +51,12 @@ export default {
     },
     cleanUrl() {
       if (this.parsedUrl) {
-        return new UrlCleaner(this.parsedUrl).removeQueriesExceptFor(this.keep).toString()
+        const cleanUrl = new UrlCleaner(this.parsedUrl)
+        cleanUrl.removeQueriesExceptFor(this.keep)
+        if (!this.keepFragment) {
+          cleanUrl.hash = ""
+        }
+        return cleanUrl.toString()
       } else {
         return ""
       }
@@ -61,11 +71,21 @@ export default {
         }
       }
       return q
+    },
+    parsedFragment() {
+      if (this.parsedUrl) {
+        return this.parsedUrl.hash
+      } else {
+        return ""
+      }
     }
   },
   methods: {
     check(event) {
       this.keep[event.target.value] = event.target.checked
+    },
+    checkFragment(event) {
+      this.keepFragment = event.target.checked
     }
   }
 }

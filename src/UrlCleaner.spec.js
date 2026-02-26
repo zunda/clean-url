@@ -91,4 +91,12 @@ describe('UrlCleaner', () => {
       i++
     }
   })
+
+  test('removes fragment', () => {
+    const orig = 'https://user:pass@www.example.com/path/to?p=parameter&q=query&p=2ndparameter#fragment'
+    const dest = 'https://user:pass@www.example.com/path/to?p=parameter&q=query&p=2ndparameter'
+    const parsed = UrlCleaner.parse(orig)
+    parsed.hash = ''
+    expect(parsed.toString()).toBe(dest)
+  })
 })

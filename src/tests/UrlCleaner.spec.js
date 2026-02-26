@@ -61,4 +61,37 @@ describe('UrlCleanerComponent', () => {
 
     cleanup()
   })
+
+  test('keeps fragment in a URL', async () => {
+    render(UrlCleanerComponent)
+    const dirty = screen.getByPlaceholderText('Dirty URL')
+    const clean = screen.getByPlaceholderText('Clean URL')
+
+    const url = 'http://example.com/path/#fragment'
+
+    await fireEvent.update(dirty, url)
+
+    expect(dirty.value).toBe(url)
+    expect(clean.value).toBe(url)
+
+    cleanup()
+  })
+
+  test('remobe fragment in a URL when unchecked', async () => {
+    render(UrlCleanerComponent)
+    const dirty = screen.getByPlaceholderText('Dirty URL')
+    const clean = screen.getByPlaceholderText('Clean URL')
+
+    const dirtyUrl = 'http://example.com/path/#fragment'
+    const cleanUrl = 'http://example.com/path/'
+
+    await fireEvent.update(dirty, dirtyUrl)
+
+    const fCheckBox = screen.getByText('#fragment')
+    await fireEvent.click(fCheckBox)
+
+    expect(clean.value).toBe(cleanUrl)
+
+    cleanup()
+  })
 })

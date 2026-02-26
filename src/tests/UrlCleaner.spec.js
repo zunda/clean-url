@@ -36,4 +36,8 @@ describe('UrlCleanerComponent', () => {
 
     cleanup()
   })
+
+  test('keeps fields with check boxes', async () => {
+    // TODO
+  })
 })

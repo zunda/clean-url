@@ -12,7 +12,7 @@ export class UrlCleaner extends URL {
   removeQueriesExceptFor(keep) {
     const keys = []
     for (const k of this.searchParams.keys()) {
-      if (!keep.includes(k)) {
+      if (!keep[k]) {
         keys.push(k)
       }
     }

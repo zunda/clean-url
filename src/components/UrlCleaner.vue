@@ -20,7 +20,8 @@ const { copy, copied, isSupported } = useClipboard()
     </p>
     <ul>
       <li v-for="query in parsedQueries" :key="query.id" >
-        {{ query.field }}={{ query.value }}
+        <input type="checkbox" :id="query.id" :checked="keep[query.field]" :value="query.field" @change="check" />
+        <label :for="query.id">{{ query.field }}={{ query.value }}</label>
       </li>
     </ul>
   </div>
@@ -32,7 +33,10 @@ export default {
   data() {
     return {
       dirtyUrl: "",
-      keep: ["v"]
+      keep: {
+        v: true,
+        t: true
+      }
     }
   },
   computed: {
@@ -52,9 +56,15 @@ export default {
         var i = 0
         for (const [f, v] of this.parsedUrl.searchParams.entries()) {
           q.push({ id: i, field: f, value: v })
+          i++
         }
       }
       return q
+    }
+  },
+  methods: {
+    check(event) {
+      this.keep[event.target.value] = event.target.checked
     }
   }
 }

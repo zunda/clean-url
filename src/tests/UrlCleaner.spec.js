@@ -37,7 +37,28 @@ describe('UrlCleanerComponent', () => {
     cleanup()
   })
 
-  test('keeps fields with check boxes', async () => {
-    // TODO
+  test('control fields with check boxes', async () => {
+    render(UrlCleanerComponent)
+    const clean = screen.getByPlaceholderText('Clean URL')
+
+    await fireEvent.update(
+      screen.getByPlaceholderText('Dirty URL'),
+      'http://example.com/path/?p=parameter&v=keep'
+    )
+
+    const pCheckBox = screen.getByText('p=parameter')
+    const vCheckBox = screen.getByText('v=keep')
+    expect(clean.value).toBe('http://example.com/path/?v=keep')
+
+    await fireEvent.click(pCheckBox)
+    expect(clean.value).toBe('http://example.com/path/?p=parameter&v=keep')
+
+    await fireEvent.click(vCheckBox)
+    expect(clean.value).toBe('http://example.com/path/?p=parameter')
+
+    await fireEvent.click(pCheckBox)
+    expect(clean.value).toBe('http://example.com/path/')
+
+    cleanup()
   })
 })

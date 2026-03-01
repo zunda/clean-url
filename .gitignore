@@ -5,6 +5,7 @@ node_modules
 # yarn-4
 .editorconfig
 .gitattributes
+.yarn/install-state.gz
 
 # local env files
 .env.local

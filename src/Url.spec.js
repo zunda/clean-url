@@ -82,4 +82,33 @@ describe('URL', () => {
     parsed.hash = ''
     expect(parsed.toString()).toBe(dest)
   })
+
+  test('encodes components', () => {
+    const orig = 'https://ドメイン名例.JP/パス?p=パラメータ1&q=パラメータ2#フラグメント'
+    const parsed = URL.parse('https://ドメイン名例.JP/パス?p=パラメータ1&q=パラメータ2#フラグメント')
+    const expected = {
+      hash: '#%E3%83%95%E3%83%A9%E3%82%B0%E3%83%A1%E3%83%B3%E3%83%88',
+      pathname: '/%E3%83%91%E3%82%B9',
+      // https://jprs.jp/faq/use/#q3
+      hostname: 'XN--ECKWD4C7CU47R2WF.JP'.toLowerCase(),
+      protocol: 'https:',
+      search: '?p=%E3%83%91%E3%83%A9%E3%83%A1%E3%83%BC%E3%82%BF1&q=%E3%83%91%E3%83%A9%E3%83%A1%E3%83%BC%E3%82%BF2'
+    }
+    const dest = expected.protocol + '//' + expected.hostname + expected.pathname + expected.search + expected.hash
+
+    Object.entries(expected).forEach(([prop, goal]) => {
+      expect(parsed[prop]).toBe(goal)
+    })
+    const pars = [
+      ['p', 'パラメータ1'],
+      ['q', 'パラメータ2'],
+    ]
+    var i = 0
+    for (const [k, v] of parsed.searchParams.entries()) {
+      expect(k).toBe(pars[i][0])
+      expect(v).toBe(pars[i][1])
+      i++
+    }
+    expect(parsed.toString()).toBe(dest)
+  })
 })

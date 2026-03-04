@@ -1,6 +1,7 @@
 <script setup>
 import { useClipboard } from "@vueuse/core"
 import { UrlCleaner } from "../UrlCleaner"
+import { cleanPathFrom } from "../pathCleaner"
 const { copy, copied, isSupported } = useClipboard()
 </script>
 
@@ -27,6 +28,10 @@ const { copy, copied, isSupported } = useClipboard()
         <input type="checkbox" id="fragment" :checked="keepFragment" @change="checkFragment" />
         <label for="fragment">{{ parsedFragment }}</label>
       </li>
+      <li v-if="cleanPathFrom && parsedPath">
+        <input type="checkbox" id="path" :checked="keepPath" @change="checkPath" />
+        <label for="path">{{ decodeURIComponent(parsedPath) }}</label>
+      </li>
     </ol>
   </div>
 </template>
@@ -42,7 +47,8 @@ export default {
         v: true,
         t: true
       },
-      keepFragment: true
+      keepFragment: true,
+      keepPath: false
     }
   },
   computed: {
@@ -55,6 +61,9 @@ export default {
         cleanUrl.removeQueriesExceptFor(this.keep)
         if (!this.keepFragment) {
           cleanUrl.hash = ""
+        }
+        if (!this.keepPath) {
+          cleanUrl.pathname = cleanPathFrom(cleanUrl.pathname)
         }
         return cleanUrl.toString()
       } else {
@@ -78,6 +87,13 @@ export default {
       } else {
         return ""
       }
+    },
+    parsedPath() {
+      if (this.parsedUrl) {
+        return this.parsedUrl.pathname
+      } else {
+        return ""
+      }
     }
   },
   methods: {
@@ -86,6 +102,9 @@ export default {
     },
     checkFragment(event) {
       this.keepFragment = event.target.checked
+    },
+    checkPath(event) {
+      this.keepPath = event.target.checked
     }
   }
 }

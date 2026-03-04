@@ -94,4 +94,23 @@ describe('UrlCleanerComponent', () => {
 
     cleanup()
   })
+
+  test('cleans path', async() => {
+    render(UrlCleanerComponent)
+    const dirty = screen.getByPlaceholderText('Dirty URL')
+    const clean = screen.getByPlaceholderText('Clean URL')
+
+    const dirtyUrl = 'http://www.example.com/%E4%BE%8B%E7%A4%BA%E7%94%A8%E5%95%86%E5%93%81%E5%90%8D/dp/ABC012'
+    const cleanUrl = 'http://www.example.com/dp/ABC012'
+
+    await fireEvent.update(dirty, dirtyUrl)
+    expect(clean.value).toBe(cleanUrl)
+
+    const fCheckBox = screen.getByText('/例示用商品名/dp/ABC012')
+    await fireEvent.click(fCheckBox)
+
+    expect(clean.value).toBe(dirtyUrl)
+
+    cleanup()
+  })
 })

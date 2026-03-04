@@ -133,4 +133,18 @@ describe('UrlCleanerComponent', () => {
 
     cleanup()
   })
+
+  test('doesn\'t show path checkbox without something to clean', async() => {
+    render(UrlCleanerComponent)
+    const dirty = screen.getByPlaceholderText('Dirty URL')
+    const clean = screen.getByPlaceholderText('Clean URL')
+
+    const url = 'http://example.com/path/'
+
+    await fireEvent.update(dirty, url)
+
+    expect(screen.queryByText('/path/')).toBeNull()
+
+    cleanup()
+  })
 })

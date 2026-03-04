@@ -90,14 +90,18 @@ export default {
     },
     parsedDecodedPath() {
       if (this.parsedUrl) {
-        try {
-          return decodeURIComponent(this.parsedUrl.pathname)
-        } catch {
-          return this.parsedUrl.pathname
+        const dirtyPath = this.parsedUrl.pathname
+        const cleanPath = cleanPathFrom(dirtyPath)
+        if (dirtyPath != cleanPath) {
+          // show path check box only when cleaning change the path
+          try {
+            return decodeURIComponent(this.parsedUrl.pathname)
+          } catch {
+            return this.parsedUrl.pathname
+          }
         }
-      } else {
-        return ""
       }
+      return ""
     }
   },
   methods: {

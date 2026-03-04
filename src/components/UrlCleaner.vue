@@ -28,9 +28,9 @@ const { copy, copied, isSupported } = useClipboard()
         <input type="checkbox" id="fragment" :checked="keepFragment" @change="checkFragment" />
         <label for="fragment">{{ parsedFragment }}</label>
       </li>
-      <li v-if="cleanPathFrom && parsedPath">
+      <li v-if="cleanPathFrom && parsedDecodedPath">
         <input type="checkbox" id="path" :checked="keepPath" @change="checkPath" />
-        <label for="path">{{ decodeURIComponent(parsedPath) }}</label>
+        <label for="path">{{ parsedDecodedPath }}</label>
       </li>
     </ol>
   </div>
@@ -88,9 +88,13 @@ export default {
         return ""
       }
     },
-    parsedPath() {
+    parsedDecodedPath() {
       if (this.parsedUrl) {
-        return this.parsedUrl.pathname
+        try {
+          return decodeURIComponent(this.parsedUrl.pathname)
+        } catch {
+          return this.parsedUrl.pathname
+        }
       } else {
         return ""
       }

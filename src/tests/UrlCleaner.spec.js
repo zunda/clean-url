@@ -113,4 +113,24 @@ describe('UrlCleanerComponent', () => {
 
     cleanup()
   })
+
+  test('tolerates malformed path', async() => {
+    render(UrlCleanerComponent)
+    const dirty = screen.getByPlaceholderText('Dirty URL')
+    const clean = screen.getByPlaceholderText('Clean URL')
+
+    const malformedPath = '/%E%BE%8B%E7%A4%BA%E7%94%A8%E5%95%86%E5%93%81%E5%90%8D/dp/ABC012'
+    const dirtyUrl = 'http://www.example.com' + malformedPath
+    const cleanUrl = 'http://www.example.com/dp/ABC012'
+
+    await fireEvent.update(dirty, dirtyUrl)
+    expect(clean.value).toBe(cleanUrl)
+
+    const fCheckBox = screen.getByText(malformedPath)
+    await fireEvent.click(fCheckBox)
+
+    expect(clean.value).toBe(dirtyUrl)
+
+    cleanup()
+  })
 })

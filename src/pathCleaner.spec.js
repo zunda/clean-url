@@ -3,9 +3,14 @@ import { cleanPathFrom } from './pathCleaner'
 
 describe('UrlCleaner', () => {
   test('clean Amazon like path', () => {
-    const dirty = "/example-product/dp/ABC012/"
-    const clean = "/dp/ABC012/"
-    expect(cleanPathFrom(dirty)).toBe(clean)
+    [
+      ["/example-product/dp/ABC012/", "/dp/ABC012/"],
+      ["/example-product/dp/ABC012", "/dp/ABC012"],
+      ["/-/en/example-product/dp/ABC012", "/dp/ABC012"],
+      ["/-/en/example-product/dp/ABC012/", "/dp/ABC012/"],
+    ].forEach(([dirty, clean]) => {
+      expect(cleanPathFrom(dirty)).toBe(clean)
+    })
   })
 
   test('doesn\'t change non-Amazon like path', () => {

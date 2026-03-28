@@ -4,10 +4,14 @@ import { cleanPathFrom } from './pathCleaner'
 describe('UrlCleaner', () => {
   test('clean Amazon like path', () => {
     [
-      ["/example-product/dp/ABC012/", "/dp/ABC012/"],
-      ["/example-product/dp/ABC012", "/dp/ABC012"],
-      ["/-/en/example-product/dp/ABC012", "/dp/ABC012"],
-      ["/-/en/example-product/dp/ABC012/", "/dp/ABC012/"],
+      ['/dp/ABC012', '/dp/ABC012'],
+      ['/dp/ABC012/', '/dp/ABC012/'],
+      ['/example-product/dp/ABC012', '/dp/ABC012'],
+      ['/example-product/dp/ABC012/', '/dp/ABC012/'],
+      ['/-/en/example-product/dp/ABC012', '/dp/ABC012'],
+      ['/-/en/example-product/dp/ABC012/', '/dp/ABC012/'],
+      ['/dp/ABC012/ref=abc_123', '/dp/ABC012/'],
+      ['/example-product/dp/ABC012/ref=abc_123', '/dp/ABC012/']
     ].forEach(([dirty, clean]) => {
       expect(cleanPathFrom(dirty)).toBe(clean)
     })
@@ -15,10 +19,10 @@ describe('UrlCleaner', () => {
 
   test('doesn\'t change non-Amazon like path', () => {
     [
-      "/example/product/dp/ABC012",
-      "/example-product/x/dp/ABC012",
-      "/example-product/dp/",
-      "/example-product/dp"
+      '/example/product/dp/ABC012',
+      '/example-product/x/dp/ABC012',
+      '/example-product/dp/',
+      '/example-product/dp'
     ].forEach((path) => {
       expect(cleanPathFrom(path)).toBe(path)
     })

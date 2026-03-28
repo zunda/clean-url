@@ -1,3 +1,7 @@
 export function cleanPathFrom(path) {
-  return path.replace(RegExp("^/(-/[a-z]+/)?.[^/]+/dp/(?=[A-Za-z0-9])"), "/dp/")
+  const m = RegExp('^(/-/[a-z]+)?(/[^/]+)?(?<clean>/dp/[A-Za-z0-9]+/?)').exec(path)
+  if (m && m.groups) {
+    return m.groups.clean
+  }
+  return path
 }

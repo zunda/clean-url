@@ -19,6 +19,9 @@ const { copy, copied, isSupported } = useClipboard()
         </button>
       </span>
     </p>
+    <p v-if="parsedUrl" class="hostname">
+      Hostname: <span class="hostname">{{ parsedUrl.hostname }}</span>
+    </p>
     <ol>
       <li v-for="query in parsedQueries" :key="query.id" >
         <input type="checkbox" :id="query.id" :checked="keep[query.field]" :value="query.field" @change="check" />
@@ -128,6 +131,13 @@ input.url {
 }
 button {
   width: 5em;
+}
+
+p.hostname {
+  font-family: monospace;
+}
+span.hostname {
+  font-weight: bold;
 }
 
 ol {

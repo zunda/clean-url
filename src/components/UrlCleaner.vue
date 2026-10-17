@@ -3,6 +3,17 @@ import { useClipboard } from "@vueuse/core"
 import { UrlCleaner } from "../UrlCleaner"
 import { cleanPathFrom } from "../pathCleaner"
 const { copy, copied, isSupported } = useClipboard()
+function commitUrl(dirtyUrl, cleanUrl) {
+  copy(cleanUrl)
+
+  let documentUrl = new URL(document.location)
+  if (dirtyUrl.length > 0) {
+    documentUrl.searchParams.set("url", dirtyUrl)
+  } else {
+    documentUrl.searchParams.delete("url")
+  }
+  history.replaceState(null, null, documentUrl)
+}
 </script>
 
 <template>
@@ -13,7 +24,7 @@ const { copy, copied, isSupported } = useClipboard()
     <p class="urlRow">
       <input class="url" v-model="cleanUrl" placeholder="Clean URL" readonly="readonly" />
       <span v-if="isSupported">
-        <button @click="copy(cleanUrl)" :disabled="!cleanUrl" >
+        <button @click="commitUrl(dirtyUrl, cleanUrl)" :disabled="!cleanUrl">
           <span v-if="!copied">Copy</span>
           <span v-else>Copied</span>
         </button>
@@ -44,7 +55,7 @@ export default {
   name: "UrlCleanerComponent",
   data() {
     return {
-      dirtyUrl: "",
+      dirtyUrl: new URLSearchParams(document.location.search).get("url") || "",
       keep: {
         q: true,
         v: true,

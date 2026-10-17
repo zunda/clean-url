@@ -44,7 +44,7 @@ export default {
   name: "UrlCleanerComponent",
   data() {
     return {
-      dirtyUrl: "",
+      dirtyUrl: new URLSearchParams(document.location.search).get("url") || "",
       keep: {
         q: true,
         v: true,
